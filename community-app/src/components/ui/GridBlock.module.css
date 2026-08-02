@@ -1,0 +1,25 @@
+.block {
+  padding: 26px 22px;
+  border-right: var(--border-width) solid var(--line);
+}
+.block:last-child {
+  border-right: none;
+}
+.num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.word {
+  font-size: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+@media (max-width: 760px) {
+  .block {
+    border-right: var(--border-width) solid var(--line);
+    border-bottom: var(--border-width) solid var(--line);
+  }
+}

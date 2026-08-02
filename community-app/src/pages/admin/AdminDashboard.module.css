@@ -1,0 +1,536 @@
+.adminContainer {
+  display: grid;
+  grid-template-columns: 240px 350px 1fr;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+@media (max-width: 1024px) {
+  .adminContainer {
+    grid-template-columns: 80px 300px 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .adminContainer {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 35vh 1fr;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .masterSidebar {
+    padding: 10px 0 !important;
+    flex-direction: column !important;
+  }
+  
+  .brand {
+    margin-bottom: 10px !important;
+    padding: 0 15px !important;
+    font-size: 18px !important;
+  }
+  
+  .mainNav {
+    flex-direction: row !important;
+    overflow-x: auto;
+    padding: 0 10px;
+    gap: 5px;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+  
+  .navItem {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    white-space: nowrap;
+    border-left: none !important;
+  }
+
+  .navItem.active {
+    border-bottom: 2px solid var(--accent);
+    background: transparent !important;
+  }
+
+  .sidebarFooter {
+    display: none;
+  }
+
+  .dossierInner {
+    padding: 20px !important;
+  }
+
+  .dossierName {
+    font-size: 24px !important;
+  }
+
+  .dossierHeader {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 15px;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .attendanceSummaryGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── 1. MASTER SIDEBAR ──────────────────────────────────────── */
+.masterSidebar {
+  background: var(--ink);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 0;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 20px;
+  padding: 0 30px;
+  margin-bottom: 50px;
+  letter-spacing: 0.05em;
+}
+
+.mainNav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.navItem {
+  background: transparent;
+  border: none;
+  color: #888;
+  text-align: left;
+  padding: 15px 30px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navItem:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.05);
+}
+
+.navItem.active {
+  color: #fff;
+  border-left: 4px solid var(--accent);
+  background: rgba(255,255,255,0.05);
+}
+
+.sidebarFooter {
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ── 2. INBOX LIST ──────────────────────────────────────────── */
+.listColumn {
+  border-right: var(--border-width) solid var(--line);
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  height: 100%;
+}
+
+.listHeader {
+  padding: 20px;
+  border-bottom: var(--border-width) solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.listItem {
+  padding: 20px;
+  border-bottom: var(--border-width) solid var(--line);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.listItem:hover {
+  background: rgba(0,0,0,0.02);
+}
+
+.listItem.selected {
+  background: rgba(0,0,0,0.04);
+  border-left: 4px solid var(--ink);
+}
+
+.listMeta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.listDate {
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+}
+
+.listStatus {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  background: rgba(0,0,0,0.06);
+  color: var(--ink);
+}
+
+.listName {
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+
+.listItem.founderItem {
+  border-left: 4px solid var(--accent);
+  background: linear-gradient(to right, rgba(0,0,0,0.03), transparent);
+}
+
+.founderBadge {
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-left: 8px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.listCat {
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── 3. DOSSIER VIEW ────────────────────────────────────────── */
+.dossierColumn {
+  background: var(--paper);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.dossierInner {
+  padding: clamp(30px, 5vw, 60px);
+  max-width: 800px;
+}
+
+.dossierHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 30px;
+  margin-bottom: 40px;
+  border-bottom: 2px solid var(--ink);
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.dossierName {
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.titleInput {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 900;
+  line-height: 1;
+  border: none;
+  border-bottom: 2px dashed var(--line);
+  background: transparent;
+  color: var(--ink);
+  outline: none;
+  padding: 4px 0;
+  width: 100%;
+}
+
+.dateInput {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-bottom: 2px dashed var(--line);
+  background: transparent;
+  color: var(--ink);
+  outline: none;
+  padding: 4px 0;
+  width: 100%;
+  max-width: 300px;
+}
+
+.dossierEmail {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+}
+.dossierEmail:hover {
+  text-decoration: underline;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btnDecline {
+  background: transparent;
+  border: var(--border-width) solid var(--line);
+  color: var(--ink);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+.btnDecline:hover {
+  background: var(--line);
+  color: #fff;
+}
+
+.btnApprove {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+.btnApprove:hover {
+  background: var(--ink);
+}
+
+.dossierContent {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.qaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.q {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.qDark {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.a {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 700px;
+}
+
+/* ── 4. ADMIN NOTES ─────────────────────────────────────────── */
+.notesSection {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 2px dashed var(--line);
+}
+
+.notesInput {
+  width: 100%;
+  min-height: 120px;
+  background: transparent;
+  border: var(--border-width) solid var(--line);
+  padding: 16px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.notesInput:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ── 5. TABLES & ATTENDANCE ─────────────────────────────────── */
+.createTableBtn {
+  margin: 20px;
+  padding: 16px;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+
+.createTableBtn:hover {
+  background: var(--accent);
+}
+
+.attendeeList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attendeeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: var(--border-width) solid var(--line);
+  background: #fff;
+}
+
+.attName {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.attToggles {
+  display: flex;
+  gap: 8px;
+}
+
+.attBtn {
+  background: transparent;
+  border: var(--border-width) solid var(--line);
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #888;
+}
+
+.attPresent {
+  background: #e6f7e9;
+  border-color: #2e8b57;
+  color: #2e8b57;
+}
+
+.attAbsent {
+  background: #ffebe9;
+  border-color: #cb2431;
+  color: #cb2431;
+}
+
+.attPending {
+  background: #fff;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/* ── EMPTY STATE FULL ───────────────────────────────────────── */
+.emptyStateColumn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  grid-column: span 2;
+}
+
+.emptyState {
+  font-size: 14px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── 6. COMPLETED SESSION PREVIEW ───────────────────────────── */
+.summaryBox {
+  background: #f9f9f9;
+  border: var(--border-width) solid var(--line);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.summarySection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summaryText {
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  color: var(--ink);
+  margin: 0;
+}
+
+.attendanceSummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  background: #fff;
+  border: var(--border-width) solid var(--line);
+  padding: 20px;
+}
+
+.summaryList {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summaryList li {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+

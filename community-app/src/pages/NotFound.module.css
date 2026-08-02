@@ -1,0 +1,51 @@
+/* ── label ────────────────────────────────────────────────────── */
+.num {
+  font-size: clamp(11px, 1vw, 14px);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Main block ───────────────────────────────────────────────── */
+.block {
+  padding: clamp(80px, 12vw, 140px) 0 clamp(80px, 12vw, 140px);
+}
+
+.h1 {
+  font-size: clamp(56px, 10vw, 120px);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.9;
+  margin-top: 18px;
+}
+
+.text {
+  font-size: clamp(15px, 1.6vw, 22px);
+  font-weight: 500;
+  max-width: 480px;
+  margin-top: 28px;
+  color: #333;
+  line-height: 1.55;
+}
+
+.backLink {
+  margin-top: 44px;
+}
+
+/* ── Footer ───────────────────────────────────────────────────── */
+.footer {
+  border-top: var(--border-width) solid var(--line);
+}
+
+.footerInner {
+  width: 100%;
+  padding: 28px var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  font-size: clamp(10px, 0.9vw, 13px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #666;
+}

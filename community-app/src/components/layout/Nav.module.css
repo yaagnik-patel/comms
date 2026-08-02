@@ -1,0 +1,50 @@
+.wrap {
+  width: 100%;
+  padding: 0 var(--gutter);
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  border-bottom: var(--border-width) solid var(--line);
+  font-size: clamp(12px, 1vw, 16px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.mark {
+  font-weight: 900;
+  font-size: clamp(13px, 1.1vw, 17px);
+}
+.navLink {
+  font-size: clamp(11px, 0.9vw, 14px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.navLink:hover {
+  opacity: 1;
+}
+.cta {
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 22px;
+  font-size: clamp(11px, 0.9vw, 14px);
+  letter-spacing: 0.08em;
+}
+.backArrow {
+  font-size: clamp(11px, 0.9vw, 14px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+.backArrow:hover {
+  opacity: 1;
+}

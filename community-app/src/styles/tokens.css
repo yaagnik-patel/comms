@@ -1,0 +1,20 @@
+:root {
+  --ink: #111111;
+  --paper: #F5F5F0;
+  --accent: #2A3FE0;
+  --line: #111111;
+
+  --font-display: 'Archivo', sans-serif;
+
+  --border-width: 2px;
+  --radius: 0;
+  --max-width: 100%;
+  --gutter: 64px;
+}
+
+@media (max-width: 1024px) {
+  :root { --gutter: 40px; }
+}
+@media (max-width: 640px) {
+  :root { --gutter: 20px; }
+}

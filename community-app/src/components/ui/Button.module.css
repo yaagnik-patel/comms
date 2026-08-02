@@ -1,0 +1,10 @@
+.btn {
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+  padding: 16px 28px;
+  letter-spacing: 0.03em;
+}
+.dark { background: var(--ink); color: #fff; }
+.accent { background: var(--accent); color: #fff; }
