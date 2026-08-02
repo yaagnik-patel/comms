@@ -9,34 +9,49 @@ import styles from './Apply.module.css';
 const buildingOptions = [
   'Building a startup',
   'Running a business',
-  'Building a product or project',
-  'Creating a personal brand / content',
+  'Building a personal brand / creator career',
   'Freelancing / independent work',
-  'Inventing / experimenting',
+  'Building products or software',
+  'Designing / creating content',
+  'Investing / mentoring',
   'Exploring an idea',
   'Other',
 ];
 
-const meetOptions = [
-  'Founder',
-  'Business owner',
-  'Creator',
-  'Designer',
-  'Developer',
-  'Marketer',
-  'Investor',
-  'Mentor',
-  'Someone with industry experience',
-  'Potential collaborator',
+const freelanceOptions = [
+  'Web development',
+  'UI/UX design',
+  'Graphic design',
+  'Video editing',
+  'Content creation',
+  'Branding',
+  'Marketing',
+  'Photography',
+  'Writing',
+  'Automation / AI solutions',
   'Other',
 ];
 
+const meetOptions = [
+  'Founders',
+  'Developers',
+  'Designers',
+  'Business owners',
+  'Creators',
+  'Marketers',
+  'Investors',
+  'Mentors',
+  'People from different industries',
+  'Other builders',
+];
+
 const commitmentOptions = [
-  "I'll actively participate.",
-  "I'll come prepared to share something useful.",
-  "I'll contribute when I can.",
-  "I'll respect everyone's time.",
-  'All of the above.',
+  'I will openly share my experiences',
+  'I will ask meaningful questions',
+  'I will help where I can',
+  'I will come prepared',
+  'I will actively participate',
+  "I will respect others' time and experiences",
 ];
 
 const initialState = {
@@ -46,7 +61,11 @@ const initialState = {
   city: '',
   profileLink: '',
   buildingCategory: '',
+  freelanceWork: [],
   currentlyBuilding: '',
+  previousWorkLink: '',
+  proudWorkStory: '',
+  meaningfulWorkStory: '',
   biggestChallenge: '',
   triedSolutions: '',
   whatDidntWork: '',
@@ -58,23 +77,24 @@ const initialState = {
   willingToOffer: '',
   whyApplying: '',
   shouldNotBecome: '',
-  commitment: '',
+  commitment: [],
   wishKnown: '',
 };
 
-const TOTAL_STEPS = 10;
+const TOTAL_STEPS = 11;
 
 const stepLabels = [
-  '01 \u2014 About you',
-  '02 \u2014 What you\u2019re building',
-  '03 \u2014 Where you are right now',
-  '04 \u2014 What you can contribute',
-  '05 \u2014 Who you want to meet',
-  '06 \u2014 The culture question',
-  '07 \u2014 Why you want to join',
-  '08 \u2014 One more thing',
-  '09 \u2014 If we meet',
-  '10 \u2014 Last question',
+  '01 \u2014 About You',
+  '02 \u2014 What You\'re Building / Working On',
+  '03 \u2014 Show Us What You Do',
+  '04 \u2014 Where You Are Right Now',
+  '05 \u2014 What You Can Contribute',
+  '06 \u2014 Who You Want To Meet',
+  '07 \u2014 Culture Question',
+  '08 \u2014 Why You Want To Join',
+  '09 \u2014 Community Mindset',
+  '10 \u2014 If We Meet',
+  '11 \u2014 Last Question',
 ];
 
 export default function Apply() {
@@ -87,14 +107,14 @@ export default function Apply() {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
-  const toggleMeet = (option) => {
+  const toggleArray = (field, option) => {
     setForm((prev) => {
-      const has = prev.wantToMeet.includes(option);
+      const has = prev[field].includes(option);
       return {
         ...prev,
-        wantToMeet: has
-          ? prev.wantToMeet.filter((o) => o !== option)
-          : [...prev.wantToMeet, option],
+        [field]: has
+          ? prev[field].filter((o) => o !== option)
+          : [...prev[field], option],
       };
     });
   };
@@ -103,12 +123,18 @@ export default function Apply() {
     switch (step) {
       case 0: return form.fullName.trim() !== '' && form.email.trim() !== '';
       case 1: return form.buildingCategory !== '' && form.currentlyBuilding.trim() !== '';
-      case 2: return form.biggestChallenge.trim() !== '';
-      case 3: return form.canHelpWith.trim() !== '';
-      case 5: return form.willingToOffer.trim() !== '';
-      case 6: return form.whyApplying.trim() !== '';
-      case 7: return form.shouldNotBecome.trim() !== '';
-      case 8: return form.commitment !== '';
+      case 2: 
+        const isCreatorOrFreelancer = ['Building a personal brand / creator career', 'Freelancing / independent work', 'Designing / creating content'].includes(form.buildingCategory);
+        if (isCreatorOrFreelancer) {
+            return form.previousWorkLink.trim() !== '';
+        }
+        return true;
+      case 3: return form.biggestChallenge.trim() !== '';
+      case 4: return form.canHelpWith.trim() !== '';
+      case 6: return form.willingToOffer.trim() !== '';
+      case 7: return form.whyApplying.trim() !== '';
+      case 8: return form.shouldNotBecome.trim() !== '';
+      case 9: return form.commitment.length > 0;
       default: return true;
     }
   };
@@ -168,7 +194,7 @@ export default function Apply() {
               </Field>
             </div>
             <div className={styles.row1}>
-              <Field label="LinkedIn / Instagram / Website &mdash; whichever best represents what you do">
+              <Field label={<>Where can we see your work? <br/><small style={{fontWeight:'normal',opacity:0.8}}>LinkedIn / Instagram / Portfolio Website / GitHub / Behance / Dribbble / YouTube / Other. Share the place that best represents what you create or work on.</small></>}>
                 <input type="text" value={form.profileLink} onChange={update('profileLink')} />
               </Field>
             </div>
@@ -197,6 +223,22 @@ export default function Apply() {
               </Field>
             </div>
             <div className={styles.row1}>
+              <Field label={<>If you freelance or work independently, what best describes your work? <small style={{fontWeight:'normal',opacity:0.8}}>(Allow multiple selections)</small></>}>
+                <div className={styles.checkGrid}>
+                  {freelanceOptions.map((opt) => (
+                    <label key={opt} className={styles.checkItem}>
+                      <input
+                        type="checkbox"
+                        checked={form.freelanceWork.includes(opt)}
+                        onChange={() => toggleArray('freelanceWork', opt)}
+                      />
+                      {opt}
+                    </label>
+                  ))}
+                </div>
+              </Field>
+            </div>
+            <div className={styles.row1}>
               <Field label="Tell us what you're currently building or working on." required>
                 <textarea value={form.currentlyBuilding} onChange={update('currentlyBuilding')} />
               </Field>
@@ -205,6 +247,27 @@ export default function Apply() {
         );
 
       case 2:
+        return (
+          <>
+            <div className={styles.row1}>
+              <Field label={<>Where can we see your previous work? <br/><small style={{fontWeight:'normal',opacity:0.8}}>(Required for creators/freelancers. Examples: Portfolio website, GitHub repository, Behance / Dribbble, Instagram page, YouTube channel, Published products, Case studies, Other)</small></>} required={['Building a personal brand / creator career', 'Freelancing / independent work', 'Designing / creating content'].includes(form.buildingCategory)}>
+                <input type="text" value={form.previousWorkLink} onChange={update('previousWorkLink')} placeholder="Link:" />
+              </Field>
+            </div>
+            <div className={styles.row1}>
+              <Field label={<>Tell us about one piece of work you're proud of. <br/><small style={{fontWeight:'normal',opacity:0.8}}>What was the problem? What did you create? What was your role?</small></>}>
+                <textarea value={form.proudWorkStory} onChange={update('proudWorkStory')} />
+              </Field>
+            </div>
+            <div className={styles.row1}>
+              <Field label="What makes this work meaningful to you?">
+                <textarea value={form.meaningfulWorkStory} onChange={update('meaningfulWorkStory')} />
+              </Field>
+            </div>
+          </>
+        );
+
+      case 3:
         return (
           <>
             <div className={styles.row1}>
@@ -230,34 +293,34 @@ export default function Apply() {
           </>
         );
 
-      case 3:
+      case 4:
         return (
           <>
             <div className={styles.row1}>
-              <Field label="What can you genuinely help another member with?" required>
+              <Field label={<>What can you genuinely help another member with? <br/><small style={{fontWeight:'normal',opacity:0.8}}>Examples: Technical knowledge, Design feedback, Business perspective, Marketing ideas, Content strategy, Industry experience, Connections, Something else</small></>} required>
                 <textarea value={form.canHelpWith} onChange={update('canHelpWith')} />
               </Field>
             </div>
             <div className={styles.row1}>
-              <Field label="Tell us about a time you helped someone work through a problem.">
+              <Field label="Tell us about a time you helped someone solve a problem.">
                 <textarea value={form.helpedSomeoneStory} onChange={update('helpedSomeoneStory')} />
               </Field>
             </div>
           </>
         );
 
-      case 4:
+      case 5:
         return (
           <>
             <div className={styles.row1}>
-              <Field label="What kind of person would you genuinely benefit from knowing? (select all that apply)">
+              <Field label="What kind of people would you genuinely benefit from knowing?">
                 <div className={styles.checkGrid}>
                   {meetOptions.map((opt) => (
                     <label key={opt} className={styles.checkItem}>
                       <input
                         type="checkbox"
                         checked={form.wantToMeet.includes(opt)}
-                        onChange={() => toggleMeet(opt)}
+                        onChange={() => toggleArray('wantToMeet', opt)}
                       />
                       {opt}
                     </label>
@@ -266,23 +329,23 @@ export default function Apply() {
               </Field>
             </div>
             <div className={styles.row1}>
-              <Field label="What would you like to take away from being part of this community?">
+              <Field label="What would you like to take away from this community?">
                 <textarea value={form.wantFromCommunity} onChange={update('wantFromCommunity')} />
               </Field>
             </div>
           </>
         );
 
-      case 5:
+      case 6:
         return (
           <div className={styles.row1}>
-            <Field label="If another member came to you for help or perspective, what would you be willing to offer?" required>
+            <Field label={<>If another member came to you for help or perspective, what would you be willing to offer? <br/><small style={{fontWeight:'normal',opacity:0.8}}>This helps us understand whether someone is here to contribute or only receive.</small></>} required>
               <textarea value={form.willingToOffer} onChange={update('willingToOffer')} />
             </Field>
           </div>
         );
 
-      case 6:
+      case 7:
         return (
           <div className={styles.row1}>
             <Field label="Why do you want to be part of this community?" required>
@@ -291,7 +354,7 @@ export default function Apply() {
           </div>
         );
 
-      case 7:
+      case 8:
         return (
           <div className={styles.row1}>
             <Field label="What do you think a community like this should never become?" required>
@@ -300,19 +363,17 @@ export default function Apply() {
           </div>
         );
 
-      case 8:
+      case 9:
         return (
           <div className={styles.row1}>
-            <Field label="If you're invited to a gathering, what can the people in the room expect from you?" required>
-              <div className={styles.radioList}>
+            <Field label="If you're invited to a gathering, what can people in the room expect from you?" required>
+              <div className={styles.checkGrid}>
                 {commitmentOptions.map((opt) => (
-                  <label key={opt} className={styles.radioItem}>
+                  <label key={opt} className={styles.checkItem}>
                     <input
-                      type="radio"
-                      name="commitment"
-                      value={opt}
-                      checked={form.commitment === opt}
-                      onChange={update('commitment')}
+                      type="checkbox"
+                      checked={form.commitment.includes(opt)}
+                      onChange={() => toggleArray('commitment', opt)}
                     />
                     {opt}
                   </label>
@@ -322,7 +383,7 @@ export default function Apply() {
           </div>
         );
 
-      case 9:
+      case 10:
         return (
           <div className={styles.row1}>
             <Field label="What's something you wish you'd understood earlier about what you're doing now?">

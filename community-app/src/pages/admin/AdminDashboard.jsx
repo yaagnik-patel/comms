@@ -86,6 +86,16 @@ function InboxTab() {
               <div className={styles.qaGroup}>
                 <h4 className={styles.q}>What are you working on right now?</h4>
                 <p className={styles.a}>[{selectedApp.buildingCategory}] {selectedApp.currentlyBuilding}</p>
+                {selectedApp.freelanceWork && selectedApp.freelanceWork.length > 0 && (
+                  <p className={styles.a}>Freelance Work: {selectedApp.freelanceWork.join(', ')}</p>
+                )}
+              </div>
+              <div className={styles.qaGroup}>
+                <h4 className={styles.q}>Show Us What You Do</h4>
+                {selectedApp.profileLink && <p className={styles.a}>Where to see work: {selectedApp.profileLink}</p>}
+                {selectedApp.previousWorkLink && <p className={styles.a}>Previous Work: {selectedApp.previousWorkLink}</p>}
+                {selectedApp.proudWorkStory && <p className={styles.a}>Proud Work Story: {selectedApp.proudWorkStory}</p>}
+                {selectedApp.meaningfulWorkStory && <p className={styles.a}>Meaningful Work Story: {selectedApp.meaningfulWorkStory}</p>}
               </div>
               <div className={styles.qaGroup}>
                 <h4 className={styles.q}>What are you working through right now?</h4>
@@ -106,6 +116,12 @@ function InboxTab() {
               <div className={styles.qaGroup}>
                 <h4 className={styles.q}>What can you genuinely help another member with?</h4>
                 <p className={styles.a}>{selectedApp.canHelpWith}</p>
+                {selectedApp.helpedSomeoneStory && <p className={styles.a}>Helped someone story: {selectedApp.helpedSomeoneStory}</p>}
+              </div>
+              <div className={styles.qaGroup}>
+                <h4 className={styles.q}>Who You Want To Meet</h4>
+                {selectedApp.wantToMeet && selectedApp.wantToMeet.length > 0 && <p className={styles.a}>Want to meet: {selectedApp.wantToMeet.join(', ')}</p>}
+                {selectedApp.wantFromCommunity && <p className={styles.a}>Take away from community: {selectedApp.wantFromCommunity}</p>}
               </div>
               <div className={styles.qaGroup}>
                 <h4 className={styles.q}>If another member came to you for help, what would you offer?</h4>
@@ -121,8 +137,14 @@ function InboxTab() {
               </div>
               <div className={styles.qaGroup}>
                 <h4 className={styles.q}>Commitment</h4>
-                <p className={styles.a}>{selectedApp.commitment}</p>
+                <p className={styles.a}>{selectedApp.commitment && Array.isArray(selectedApp.commitment) ? selectedApp.commitment.join(', ') : selectedApp.commitment}</p>
               </div>
+              {selectedApp.wishKnown && (
+                <div className={styles.qaGroup}>
+                  <h4 className={styles.q}>What's something you wish you'd understood earlier?</h4>
+                  <p className={styles.a}>{selectedApp.wishKnown}</p>
+                </div>
+              )}
 
               {/* Admin Notes */}
               <div className={styles.notesSection}>
